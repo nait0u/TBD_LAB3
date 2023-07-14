@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "nuxt": "^3.5.3",
+    "vue-router": "^4.2.2",
+    "vuetify": "^3.3.3"
+  }
+}
