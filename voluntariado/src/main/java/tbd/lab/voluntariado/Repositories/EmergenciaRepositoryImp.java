@@ -3,6 +3,9 @@ package tbd.lab.voluntariado.Repositories;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import tbd.lab.voluntariado.Models.Emergencia;
@@ -34,136 +37,39 @@ public class EmergenciaRepositoryImp implements EmergenciaRepository {
 
     @Override
     public List<Emergencia> showEmergenciaById(long id) {
-        return null;
+        Query query = new Query(Criteria.where("id").is(id));
+        return mongoTemplate.find(query, Emergencia.class);
     }
 
     @Override
     public Emergencia createEmergencia(Emergencia emergencia) {
-        return null;
+        mongoTemplate.insert(emergencia, "emergencia");
+        return emergencia;
     }
 
     @Override
     public void deleteEmergenciaById(long id) {
-
+        Query query = new Query(Criteria.where("id").is(id));
+        mongoTemplate.remove(query, Emergencia.class);
     }
 
     @Override
     public void updateEmergencia(Emergencia emergencia) {
+        long id_emergencia = emergencia.getId();
+        Query query = new Query(Criteria.where("id").is(id_emergencia));
+        Update update = new Update();
+        update.set("nombre", emergencia.getNombre());
+        update.set("descripcion", emergencia.getDescripcion());
+        update.set("fecha", emergencia.getFecha());
+        update.set("reqs_grupales", emergencia.getReqs_grupales());
+        update.set("reqs_individuales", emergencia.getReqs_individuales());
+        update.set("longitude", emergencia.getLongitude());
+        update.set("latitude", emergencia.getLatitude());
+        update.set("habilidades", emergencia.getHabilidades());
 
-    }
-
-    /*
-    @Override
-
-    public int countEmergencias(){
-        int total = 0;
-        String sql = "SELECT COUNT(*) FROM emergencia";
-        try (Connection conn = sql2o.open()) {
-            total = conn.createQuery(sql).executeScalar(Integer.class);
-            return total;
-        }
-    }
-
-
-    @Override
-    public int newId(){
-        int id = 0;
-        String sql = "SELECT MAX(id) FROM emergencia";
-        try (Connection conn = sql2o.open()) {
-            id = conn.createQuery(sql).executeScalar(Integer.class);
-            return id;
-        }
+        mongoTemplate.updateFirst(query, update, Emergencia.class);
     }
 
 
-    @Override
-    public List<Emergencia> getAll() {
-        try(Connection conn = sql2o.open()){
-            return conn.createQuery("SELECT * FROM emergencia ORDER BY Emergencia.id ASC")
-                    .executeAndFetch(Emergencia.class);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
-
-
-    @Override
-    public List<Emergencia> showEmergenciaById(long id){
-        try(Connection conn = sql2o.open()){
-            return conn.createQuery("SELECT * FROM emergencia WHERE emergencia.id = :id")
-                    .addParameter("id", id)
-                    .executeAndFetch(Emergencia.class);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
-
-
-
-    @Override
-    public Emergencia createEmergencia(Emergencia emergencia){
-        Connection conn = sql2o.open();
-        String SQL_INSERT = "INSERT INTO emergencia(nombre, descripcion, fecha,reqs_grupales, reqs_individuales,longitude,latitude,geom)" +
-                "VALUES(:nombre2, :descripcion2, :fecha2, :reqs_grupales2, :reqs_individuales2, :longitude2, :latitude2, ST_MakePoint(:longitude2, :latitude2))";
-        try{
-            conn.createQuery(SQL_INSERT)
-                    .addParameter("nombre2", emergencia.getNombre())
-                    .addParameter("descripcion2", emergencia.getDescripcion())
-                    .addParameter("fecha2", emergencia.getFecha())
-                    .addParameter("reqs_grupales2", emergencia.getReqs_grupales())
-                    .addParameter("reqs_individuales2", emergencia.getReqs_individuales())
-                    .addParameter("longitude2", emergencia.getLongitude())
-                    .addParameter("latitude2", emergencia.getLatitude())
-                    .executeUpdate();
-            emergencia.setId(newId());
-
-            return emergencia;
-        } catch(Exception e) {
-            System.out.println(e.getMessage() + e.getLocalizedMessage() + "No se pudo crear la emergencia\n");
-            return null;
-        }
-    }
-
-
-
-    @Override
-    public void deleteEmergenciaById(long id){
-        Connection conn = sql2o.open();
-        String SQL_DELETE = "DELETE FROM emergencia WHERE emergencia.id = :id";
-
-        try{
-            conn.createQuery(SQL_DELETE).addParameter("id", id).executeUpdate();
-
-        } catch(Exception e) {
-            System.out.println(e.getMessage() + e.getLocalizedMessage() + "No se pudo borrar la emergencia\n");
-        }
-    }
-
-
-    @Override
-    public void updateEmergencia(Emergencia emergencia){
-
-        String SQL_UPDATE = "UPDATE emergencia SET nombre = :nombre2, descripcion = :descripcion2," +
-                " fecha = :fecha2, reqs_grupales = :reqs_grupales2, reqs_individuales = :reqs_individuales2, " +
-                "longitude = :longitude2, latitude = :latitude2,geom = ST_MakePoint(:longitude2,:latitude2), id = :id2 WHERE id = :id2";
-        try(Connection conn = sql2o.open()) {
-
-            conn.createQuery(SQL_UPDATE)
-                    .addParameter("nombre2", emergencia.getNombre())
-                    .addParameter("descripcion2", emergencia.getDescripcion())
-                    .addParameter("fecha2", emergencia.getFecha())
-                    .addParameter("reqs_grupales2", emergencia.getReqs_grupales())
-                    .addParameter("reqs_individuales2", emergencia.getReqs_individuales())
-                    .addParameter("longitude2", emergencia.getLongitude())
-                    .addParameter("latitude2", emergencia.getLatitude())
-                    .addParameter("id2", emergencia.getId())
-                    .executeUpdate();
-
-        } catch(Exception e) {
-            System.out.println(e.getMessage() + e.getLocalizedMessage() + "No se pudo actualizar la emergencia\n");
-        }
-        */
 
 }

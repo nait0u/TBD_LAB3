@@ -1,12 +1,14 @@
 package tbd.lab.voluntariado.Repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Component;
+
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
+
 import tbd.lab.voluntariado.Models.Institucion;
 
 import java.util.List;
@@ -21,7 +23,8 @@ public class InstitucionRepositoryImp implements InstitucionRepository{
 
     @Override
     public int countInstituciones() {
-        return 0;
+        List<Institucion> instituciones = mongoTemplate.findAll(Institucion.class);
+        return instituciones.size();
     }
 
     @Override
@@ -31,26 +34,38 @@ public class InstitucionRepositoryImp implements InstitucionRepository{
 
     @Override
     public List<Institucion> getAll() {
-        return null;
+        return mongoTemplate.findAll(Institucion.class);
     }
 
     @Override
     public List<Institucion> showInstitucionById(long id) {
-        return null;
+        Query query = new Query(Criteria.where("id").is(id));
+        return mongoTemplate.find(query, Institucion.class);
     }
 
     @Override
     public Institucion createInstitucion(Institucion institucion) {
-        return null;
+        mongoTemplate.insert(institucion, "institucion");
+        return institucion;
     }
 
     @Override
     public void deleteInstitucionById(long id) {
+        Query query = new Query(Criteria.where("id").is(id));
+        mongoTemplate.remove(query, Institucion.class);
 
     }
 
     @Override
     public void updateInstitucion(Institucion institucion) {
-
+        long id_institucion = institucion.getId();
+        Query query = new Query(Criteria.where("id").is(id_institucion));
+        Update update = new Update();
+        update.set("nombre", institucion.getNombre());
+        update.set("usuario", institucion.getUsuario());
+        update.set("password", institucion.getPassword());
+        update.set("correo", institucion.getCorreo());
+        update.set("numero", institucion.getNumero());
+        mongoTemplate.updateFirst(query, update, Institucion.class);
     }
 }
