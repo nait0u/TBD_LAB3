@@ -2,7 +2,7 @@ package tbd.lab.voluntariado.Models;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-@EntityScan
+
 public class Estado_Tarea {
 
     private long id;

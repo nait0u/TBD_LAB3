@@ -1,7 +1,9 @@
 package tbd.lab.voluntariado.Models;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-@EntityScan
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document("ranking")
 public class Ranking {
 
     private long id;

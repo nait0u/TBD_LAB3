@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 public class EmergenciaRepositoryImp implements EmergenciaRepository {
-    //Implementacion de firmas a traves del uso de sql2o para la conexion con la DB.
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
