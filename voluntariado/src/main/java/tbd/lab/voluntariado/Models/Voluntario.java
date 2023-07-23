@@ -1,10 +1,9 @@
 package tbd.lab.voluntariado.Models;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Date;
-
-@EntityScan
+@Document("voluntario")
 public class Voluntario {
 
 

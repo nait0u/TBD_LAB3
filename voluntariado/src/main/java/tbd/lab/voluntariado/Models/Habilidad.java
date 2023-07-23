@@ -1,12 +1,12 @@
 package tbd.lab.voluntariado.Models;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@EntityScan
+@Document("habilidad")
 public class Habilidad {
 
 
-    private long id;
+    private Long id;
     private String nombre;
 
     //CONSTRUCTOR Habilidad

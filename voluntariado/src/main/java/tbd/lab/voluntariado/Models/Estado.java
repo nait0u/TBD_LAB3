@@ -1,11 +1,14 @@
 package tbd.lab.voluntariado.Models;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@EntityScan
+
+@Document("estado")
 public class Estado {
 
-
+    @Id
     private long id;
     private String nombre;
 

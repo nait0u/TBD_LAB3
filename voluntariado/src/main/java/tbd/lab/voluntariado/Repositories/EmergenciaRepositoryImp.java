@@ -1,11 +1,10 @@
 package tbd.lab.voluntariado.Repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
+
 import tbd.lab.voluntariado.Models.Emergencia;
 
 import java.util.List;
@@ -14,10 +13,48 @@ import java.util.List;
 public class EmergenciaRepositoryImp implements EmergenciaRepository {
     //Implementacion de firmas a traves del uso de sql2o para la conexion con la DB.
     @Autowired
-    private Sql2o sql2o;
+    private MongoTemplate mongoTemplate;
+
 
 
     @Override
+    public int newId() {
+        return 0;
+    }
+
+    @Override
+    public List<Emergencia> getAll() {
+        return mongoTemplate.findAll(Emergencia.class);
+    }
+    @Override
+    public int countEmergencias() {
+        List<Emergencia> emergencias = mongoTemplate.findAll(Emergencia.class);
+        return emergencias.size();
+    }
+
+    @Override
+    public List<Emergencia> showEmergenciaById(long id) {
+        return null;
+    }
+
+    @Override
+    public Emergencia createEmergencia(Emergencia emergencia) {
+        return null;
+    }
+
+    @Override
+    public void deleteEmergenciaById(long id) {
+
+    }
+
+    @Override
+    public void updateEmergencia(Emergencia emergencia) {
+
+    }
+
+    /*
+    @Override
+
     public int countEmergencias(){
         int total = 0;
         String sql = "SELECT COUNT(*) FROM emergencia";
@@ -64,6 +101,7 @@ public class EmergenciaRepositoryImp implements EmergenciaRepository {
     }
 
 
+
     @Override
     public Emergencia createEmergencia(Emergencia emergencia){
         Connection conn = sql2o.open();
@@ -80,9 +118,7 @@ public class EmergenciaRepositoryImp implements EmergenciaRepository {
                     .addParameter("latitude2", emergencia.getLatitude())
                     .executeUpdate();
             emergencia.setId(newId());
-            /* conn.createQuery("update table emergencia set geom = ST_MakePoint(longitude, latitude) where id = :id")
-                    .addParameter("id", emergencia.getId())
-                    .executeUpdate(); */
+
             return emergencia;
         } catch(Exception e) {
             System.out.println(e.getMessage() + e.getLocalizedMessage() + "No se pudo crear la emergencia\n");
@@ -105,12 +141,7 @@ public class EmergenciaRepositoryImp implements EmergenciaRepository {
         }
     }
 
-    /**
-     * @param emergencia {@value} Emergencia emergencia
-     * @return {@value} Emergencia emergencia
-     * @throws Exception si no se puede actualizar la emergencia
-     * @see tbd.lab.voluntariado.Repositories.EmergenciaRepository#updateEmergencia(Emergencia emergencia)
-     */
+
     @Override
     public void updateEmergencia(Emergencia emergencia){
 
@@ -133,9 +164,6 @@ public class EmergenciaRepositoryImp implements EmergenciaRepository {
         } catch(Exception e) {
             System.out.println(e.getMessage() + e.getLocalizedMessage() + "No se pudo actualizar la emergencia\n");
         }
-    }
-
-
-
+        */
 
 }

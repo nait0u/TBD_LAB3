@@ -1,12 +1,13 @@
 package tbd.lab.voluntariado.Models;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@EntityScan
+@Document("institucion")
 public class Institucion {
 
 
-    private long id;
+    private Long id;
     private String nombre;
     private String usuario;
     private String password;
@@ -18,7 +19,7 @@ public class Institucion {
     }
 
     //CONSTRUCTOR INSTITUCION
-    public Institucion(long id, String nombre, String usuario, String password, String correo, String numero){
+    public Institucion(Long id, String nombre, String usuario, String password, String correo, String numero){
         this.id = id;
         this.nombre = nombre;
         this.usuario = usuario;
@@ -30,7 +31,7 @@ public class Institucion {
     //GETTERS INSTITUCION
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -61,7 +62,7 @@ public class Institucion {
 
     //SETTERS INSTITUCION
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

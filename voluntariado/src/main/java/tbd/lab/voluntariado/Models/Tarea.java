@@ -6,17 +6,7 @@ import java.sql.Date;
 
 @EntityScan
 public class Tarea {
-    //ATRIBUTOS DE TAREA
-    /**
-     * @param id de la tarea
-     * @param id_emergencia de la tarea
-     * @param nombre de la tarea
-     * @param descripcion de la tarea
-     * @param fecha de la tarea
-     * @param requerimientos de la tarea
-     * @param longitude de la tarea
-     * @param latitude de la tarea
-     */
+
 
     private long id;
     private long id_emergencia;

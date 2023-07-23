@@ -1,13 +1,17 @@
 package tbd.lab.voluntariado.Models;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-import java.sql.Date;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@EntityScan
+
+import java.util.ArrayList;
+import java.util.Date;
+
+@Document("emergencia")
 public class Emergencia {
-
-    private long id;
+    @Id
+    private Long id;
     private String nombre;
     private String descripcion;
     private Date fecha;
@@ -15,13 +19,11 @@ public class Emergencia {
     private String reqs_individuales;
     private Float longitude;
     private Float latitude;
-    private long id_institucion;
+    private ArrayList<Habilidad> habilidades;
 
     //CONSTRUCTOR Emergencia
-    public Emergencia(){
-    }
-    //CONSTRUCTOR Emergencia
-    public Emergencia(long id, String nombre, String descripcion, java.sql.Date fecha, String reqs_grupales, String reqs_individuales, Float longitude, Float latitude, long id_institucion){
+    public Emergencia(Long id, String nombre, String descripcion, Date fecha, String reqs_grupales,
+                      String reqs_individuales, Float longitude, Float latitude, ArrayList<Habilidad> habilidades) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -30,13 +32,15 @@ public class Emergencia {
         this.reqs_individuales = reqs_individuales;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.id_institucion = id_institucion;
+        this.habilidades = habilidades;
     }
+
+
 
     //GETTERS Emergencia
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -51,7 +55,7 @@ public class Emergencia {
     }
 
 
-    public java.sql.Date getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
@@ -74,10 +78,14 @@ public class Emergencia {
         return latitude;
     }
 
+    public ArrayList<Habilidad> getHabilidades() {
+        return habilidades;
+    }
+
     //SETTERS Emergencia
 
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -115,6 +123,10 @@ public class Emergencia {
         this.latitude = latitude;
     }
 
+    public void setHabilidades(ArrayList<Habilidad> habilidades) {
+        this.habilidades = habilidades;
+    }
+
     //TOSTRING Emergencia
 
 
@@ -129,7 +141,7 @@ public class Emergencia {
                 ", reqs_individuales='" + reqs_individuales + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
+                ", habilidades=" + habilidades +
                 '}';
     }
-
 }
