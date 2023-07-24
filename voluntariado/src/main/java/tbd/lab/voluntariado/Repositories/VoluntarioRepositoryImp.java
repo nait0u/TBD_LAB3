@@ -2,11 +2,8 @@ package tbd.lab.voluntariado.Repositories;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.mongodb.core.MongoTemplate;
-
 import com.mongodb.client.AggregateIterable;
-
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -83,7 +80,7 @@ public class VoluntarioRepositoryImp implements VoluntarioRepository{
     public AggregateIterable<Document> getTotalHabilidadesVoluntario() {
         MongoClient mongoClient = new MongoClient(
               new MongoClientURI(
-                      "mongodb://mongo:mongo@localhost:27017/?authMechanism=DEFAULT&authSource=admin"));
+                      "mongodb://mongo:mongo@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin"));
         MongoDatabase database = mongoClient.getDatabase("bd_voluntariado");
         MongoCollection<Document> collectionVoluntario = database.getCollection("voluntario");
         MongoCollection<Document> collectionHabilidad = database.getCollection("habilidad");
