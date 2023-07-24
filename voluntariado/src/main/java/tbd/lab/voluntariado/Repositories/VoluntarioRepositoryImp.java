@@ -1,12 +1,14 @@
 package tbd.lab.voluntariado.Repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Component;
+
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
+
 import tbd.lab.voluntariado.Models.Voluntario;
 
 import java.util.List;
@@ -14,23 +16,21 @@ import java.util.List;
 
 @Repository
 public class VoluntarioRepositoryImp implements VoluntarioRepository{
-    //Implementacion de firmas a traves del uso de sql2o para la conexion con la DB.
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @Override
     public int countVoluntarios() {
-        return 0;
+        List<Voluntario> voluntarios = mongoTemplate.findAll(Voluntario.class);
+        return voluntarios.size();
     }
 
-    @Override
-    public int newId() {
-        return 0;
-    }
+
 
     @Override
     public List<Voluntario> getAll() {
-        return null;
+        return mongoTemplate.findAll(Voluntario.class);
     }
 
     @Override
@@ -40,21 +40,31 @@ public class VoluntarioRepositoryImp implements VoluntarioRepository{
 
     @Override
     public List<Voluntario> showVoluntarioById(long id) {
-        return null;
+        Query query = new Query(Criteria.where("id").is(id));
+        return mongoTemplate.find(query, Voluntario.class);
     }
 
     @Override
     public Voluntario createVoluntario(Voluntario voluntario) {
-        return null;
+        mongoTemplate.insert(voluntario, "voluntario");
+        return voluntario;
     }
 
     @Override
     public void deleteVoluntarioById(long id) {
-
+        Query query = new Query(Criteria.where("id").is(id));
+        mongoTemplate.remove(query, Voluntario.class);
     }
 
     @Override
     public void updateVoluntario(Voluntario voluntario) {
-
+        Query query = new Query(Criteria.where("id").is(voluntario.getId()));
+        Update update = new Update();
+        update.set("correo", voluntario.getCorreo());
+        update.set("usuario", voluntario.getUsuario());
+        update.set("nombre", voluntario.getNombre());
+        update.set("password", voluntario.getPassword());
+        update.set("habilidades", voluntario.getHabilidades());
+        mongoTemplate.updateFirst(query, update, Voluntario.class);
     }
 }

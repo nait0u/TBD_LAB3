@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface HabilidadRepository {
     public int countHabilidades();
-    public int newId();
+
     public List<Habilidad> getAll();
     public List<Habilidad> showHabilidadById(long id);
     public Habilidad createHabilidad(Habilidad habilidad);

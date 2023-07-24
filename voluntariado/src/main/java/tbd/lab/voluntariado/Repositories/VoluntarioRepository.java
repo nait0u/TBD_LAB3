@@ -10,7 +10,6 @@ import java.util.List;
 public interface VoluntarioRepository {
 
     public int countVoluntarios();
-    public int newId();
     public List<Voluntario> getAll();
     public List<Voluntario> getVoluntarioLogin(String nombre, String password);
     public List<Voluntario> showVoluntarioById(long id);

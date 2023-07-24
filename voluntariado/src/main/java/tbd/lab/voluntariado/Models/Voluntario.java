@@ -14,7 +14,6 @@ public class Voluntario {
     private String usuario;
     private String nombre;
     private String password;
-    private String atributos;
     private List<Habilidad> habilidades;
 
 
@@ -24,7 +23,7 @@ public class Voluntario {
         this.usuario = usuario;
         this.nombre = nombre;
         this.password = password;
-        this.atributos = atributos;
+
         this.habilidades = habilidades;
     }
 
@@ -68,13 +67,6 @@ public class Voluntario {
         this.password = password;
     }
 
-    public String getAtributos() {
-        return atributos;
-    }
-
-    public void setAtributos(String atributos) {
-        this.atributos = atributos;
-    }
 
     public List<Habilidad> getHabilidades() {
         return habilidades;

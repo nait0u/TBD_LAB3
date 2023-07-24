@@ -1,14 +1,12 @@
 package tbd.lab.voluntariado.Repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
 import tbd.lab.voluntariado.Models.Habilidad;
-
 import java.util.List;
 
 
@@ -20,36 +18,40 @@ public class HabilidadRepositoryImp implements HabilidadRepository{
 
     @Override
     public int countHabilidades() {
-        return 0;
+        List<Habilidad> habilidades = mongoTemplate.findAll(Habilidad.class);
+        return habilidades.size();
     }
 
-    @Override
-    public int newId() {
-        return 0;
-    }
 
     @Override
     public List<Habilidad> getAll() {
-        return null;
+        return mongoTemplate.findAll(Habilidad.class);
     }
 
     @Override
     public List<Habilidad> showHabilidadById(long id) {
-        return null;
+        Query query = new Query(Criteria.where("id").is(id));
+        return mongoTemplate.find(query, Habilidad.class);
     }
 
     @Override
     public Habilidad createHabilidad(Habilidad habilidad) {
-        return null;
+        mongoTemplate.insert(habilidad, "habilidad");
+        return habilidad;
     }
 
     @Override
     public void deleteHabilidadById(long id) {
-
+        Query query = new Query(Criteria.where("id").is(id));
+        mongoTemplate.remove(query, Habilidad.class);
     }
 
     @Override
     public void updateHabilidad(Habilidad habilidad) {
-
+        Query query = new Query(Criteria.where("id").is(habilidad.getId()));
+        Update update = new Update();
+        update.set("codigo", habilidad.getCodigo());
+        update.set("descripcion", habilidad.getDescripcion());
+        mongoTemplate.updateFirst(query, update, Habilidad.class);
     }
 }
