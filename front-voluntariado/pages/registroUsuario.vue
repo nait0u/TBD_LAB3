@@ -12,11 +12,12 @@
         </a>
       </div>
       <div class="flex items-center gap-4">
-        <NuxtLink to="/registroVoluntario" class="cta-button">Registro Voluntario</NuxtLink>
+        <NuxtLink to="/" class="cta-button">Home</NuxtLink>
         <NuxtLink to="/registroInstitucion" class="cta-button">Registro Institucion</NuxtLink>
         <NuxtLink to="/registroEmergencia" class="cta-button">Registro Emergencia</NuxtLink>
         <NuxtLink to="/vistaMapa" class="cta-button">Ver Mapa</NuxtLink>
         <NuxtLink to="/listaEmergencia" class="cta-button">Emergencias</NuxtLink>
+        <NuxtLink to="/listaHabilidades" class="cta-button">Lista de Habilidades</NuxtLink>
       </div>
     </header>
     <div class="container">

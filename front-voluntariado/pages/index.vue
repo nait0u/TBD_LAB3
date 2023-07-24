@@ -19,6 +19,7 @@
           <NuxtLink to="/registroEmergencia" class="cta-button">Registro Emergencia</NuxtLink>
           <NuxtLink to="/vistaMapa" class="cta-button">Ver Mapa</NuxtLink>
           <NuxtLink to="/listaEmergencia" class="cta-button">Emergencias</NuxtLink>
+          <NuxtLink to="/listaHabilidades" class="cta-button">Lista de Habilidades</NuxtLink>
         </div>
       </nav>
     </header>
