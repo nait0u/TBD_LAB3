@@ -65,11 +65,10 @@ public class VoluntarioService {
     public List<Voluntario> getVoluntarioById(@PathVariable Long id_voluntario) {
         return voluntarioRepository.showVoluntarioById(id_voluntario);
     }
-
-    @GetMapping("/totalHabilidades")
-    public ResponseEntity<AggregateIterable<Document>> getTotalHabilidadesVoluntario() {
-        AggregateIterable<Document> result = voluntarioRepositoryImp.getTotalHabilidadesVoluntario();
-        return ResponseEntity.ok(result);
+    @GetMapping("/{idVoluntario}/habilidades")
+    public List<Habilidad> obtenerHabilidadesDeVoluntario(@PathVariable int idVoluntario) {
+        return voluntarioRepository.obtenerHabilidadesDeVoluntario(idVoluntario);
     }
+
 
 }

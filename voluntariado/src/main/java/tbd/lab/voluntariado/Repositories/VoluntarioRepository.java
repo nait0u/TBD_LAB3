@@ -1,5 +1,6 @@
 package tbd.lab.voluntariado.Repositories;
 
+import tbd.lab.voluntariado.Models.Habilidad;
 import tbd.lab.voluntariado.Models.Voluntario;
 
 import java.math.BigInteger;
@@ -17,6 +18,7 @@ public interface VoluntarioRepository {
     public Voluntario createVoluntario(Voluntario voluntario);
     public void deleteVoluntarioById(Long id_voluntario);
     public void updateVoluntario(Voluntario voluntario);
+    public List<Habilidad> obtenerHabilidadesDeVoluntario(int idVoluntario);
 
 
 }

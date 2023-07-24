@@ -4,16 +4,18 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import com.mongodb.client.AggregateIterable;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 import org.springframework.stereotype.Repository;
+import tbd.lab.voluntariado.Models.Habilidad;
 import tbd.lab.voluntariado.Models.Voluntario;
 
 import java.util.Arrays;
 import java.util.List;
-
+import org.bson.types.ObjectId;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -76,28 +78,41 @@ public class VoluntarioRepositoryImp implements VoluntarioRepository{
         mongoTemplate.updateFirst(query, update, Voluntario.class);
     }
 
+    @Override
+    public List<Habilidad> obtenerHabilidadesDeVoluntario(int idVoluntario) {
+        // Etapa 1: Filtrar el voluntario por su id_voluntario
+        AggregationOperation matchVoluntario = match(Criteria.where("id_voluntario").is(idVoluntario));
 
-    public AggregateIterable<Document> getTotalHabilidadesVoluntario() {
-        MongoClient mongoClient = new MongoClient(
-              new MongoClientURI(
-                      "mongodb://mongo:mongo@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin"));
-        MongoDatabase database = mongoClient.getDatabase("bd_voluntariado");
-        MongoCollection<Document> collectionVoluntario = database.getCollection("voluntario");
-        MongoCollection<Document> collectionHabilidad = database.getCollection("habilidad");
+        // Etapa 2: Realizar el lookup para unir con la colección de habilidades
+        LookupOperation lookupHabilidades = lookup("habilidad", "habilidades.id_habilidad", "id_habilidad", "habilidades_voluntario");
 
-        AggregateIterable<Document> result = collectionVoluntario.aggregate(Arrays.asList(
-                new Document("$lookup",
-                        new Document("from", "habilidad")
-                                .append("localField", "_id")
-                                .append("foreignField", "id_voluntario")
-                                .append("as", "habilidades")),
-                new Document("$unwind", new Document("path", "$habilidades")),
-                new Document("$group",
-                        new Document("_id", "$_id")
-                                .append("total_habilidades", new Document("$sum", 1L)))
-        ));
-        return result;
+        // Etapa 3: Desenrollar el array de habilidades
+        AggregationOperation unwindHabilidades = unwind("habilidades_voluntario");
+
+        // Etapa 4: Filtrar las habilidades del voluntario específico
+        AggregationOperation matchHabilidadesVoluntario = match(Criteria.where("habilidades_voluntario.id_voluntario").is(idVoluntario));
+
+        // Etapa 5: Proyectar solo los campos necesarios de la colección "habilidad"
+        AggregationOperation projectHabilidades = project()
+                .andExpression("habilidades_voluntario.id_habilidad").as("id_habilidad")
+                .andExpression("habilidades_voluntario.descripcion").as("descripcion")
+                .andExpression("habilidades_voluntario.codigo").as("codigo");
+
+        // Ejecutar la agregación
+        Aggregation aggregation = Aggregation.newAggregation(
+                matchVoluntario,
+                lookupHabilidades,
+                unwindHabilidades,
+                matchHabilidadesVoluntario,
+                projectHabilidades
+        );
+
+        AggregationResults<Habilidad> resultado = mongoTemplate.aggregate(aggregation, "voluntario", Habilidad.class);
+
+        return resultado.getMappedResults();
     }
-
-
 }
+
+
+
+
