@@ -1,14 +1,24 @@
 package tbd.lab.voluntariado.Services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tbd.lab.voluntariado.Models.Habilidad;
 import tbd.lab.voluntariado.Models.Voluntario;
 import tbd.lab.voluntariado.Repositories.VoluntarioRepository;
+import tbd.lab.voluntariado.Repositories.VoluntarioRepositoryImp;
 
 
+import java.math.BigInteger;
 import java.util.List;
 @RestController
 public class VoluntarioService {
-    private final VoluntarioRepository voluntarioRepository;
+
+    @Autowired
+    private VoluntarioRepository voluntarioRepository;
+
+    @Autowired
+    private VoluntarioRepositoryImp voluntarioRepositoryImp;
+
 
     VoluntarioService(VoluntarioRepository voluntarioRepository) {
         this.voluntarioRepository = voluntarioRepository;
@@ -27,6 +37,7 @@ public class VoluntarioService {
     @PostMapping("/voluntario/create")
     @ResponseBody
     public Voluntario createVoluntario(@RequestBody Voluntario voluntario){
+        System.out.println("por la chucha");
         Voluntario newVoluntario = voluntarioRepository.createVoluntario(voluntario);
         return newVoluntario;
     }
@@ -37,9 +48,9 @@ public class VoluntarioService {
         return String.format("Se tienen %s voluntarios.", total);
     }
 
-    @RequestMapping(value = "/voluntario/deleteById/{id}", method = RequestMethod.DELETE)
-    public void deleteVoluntario(@PathVariable long id) {
-        voluntarioRepository.deleteVoluntarioById(id);
+    @RequestMapping(value = "/voluntario/deleteById/{id_voluntario}", method = RequestMethod.DELETE)
+    public void deleteVoluntario(@PathVariable Long id_voluntario) {
+        voluntarioRepository.deleteVoluntarioById(id_voluntario);
     }
 
     @RequestMapping(value = "/voluntario/updateById/{id}", method = RequestMethod.PUT)
@@ -47,11 +58,13 @@ public class VoluntarioService {
         voluntarioRepository.updateVoluntario(voluntario);
     }
 
-    @RequestMapping(value = "/voluntario/getById/{id}", method = RequestMethod.GET)
-    public List<Voluntario> getVoluntarioById(@PathVariable long id) {
-        return voluntarioRepository.showVoluntarioById(id);
+    @RequestMapping(value = "/voluntario/getById/{id_voluntario}", method = RequestMethod.GET)
+    public List<Voluntario> getVoluntarioById(@PathVariable Long id_voluntario) {
+        return voluntarioRepository.showVoluntarioById(id_voluntario);
     }
 
-
-
+    @GetMapping("obtenerHabilidades/{id_voluntario}")
+    public List<Voluntario> obtenerHabilidadesDeVoluntario(@PathVariable int id_voluntario) {
+        return voluntarioRepositoryImp.obtenerHabilidadesDeVoluntario(id_voluntario);
+    }
 }

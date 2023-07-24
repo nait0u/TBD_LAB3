@@ -11,9 +11,9 @@ public interface HabilidadRepository {
     public int countHabilidades();
 
     public List<Habilidad> getAll();
-    public List<Habilidad> showHabilidadById(long id);
+    public List<Habilidad> showHabilidadById(Long id_habilidad);
     public Habilidad createHabilidad(Habilidad habilidad);
-    public void deleteHabilidadById(long id);
+    public void deleteHabilidadById(Long id_habilidad);
     public void updateHabilidad(Habilidad habilidad);
 
 

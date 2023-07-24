@@ -29,8 +29,8 @@ public class HabilidadRepositoryImp implements HabilidadRepository{
     }
 
     @Override
-    public List<Habilidad> showHabilidadById(long id) {
-        Query query = new Query(Criteria.where("id").is(id));
+    public List<Habilidad> showHabilidadById(Long id_habilidad) {
+        Query query = new Query(Criteria.where("id_habilidad").is(id_habilidad));
         return mongoTemplate.find(query, Habilidad.class);
     }
 
@@ -41,8 +41,8 @@ public class HabilidadRepositoryImp implements HabilidadRepository{
     }
 
     @Override
-    public void deleteHabilidadById(long id) {
-        Query query = new Query(Criteria.where("id").is(id));
+    public void deleteHabilidadById(Long id_habilidad) {
+        Query query = new Query(Criteria.where("id_habilidad").is(id_habilidad));
         mongoTemplate.remove(query, Habilidad.class);
     }
 

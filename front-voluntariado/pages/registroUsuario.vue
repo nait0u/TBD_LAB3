@@ -64,13 +64,6 @@
                  placeholder="Ingrese contraseña">
         </div>
 
-        <div class="form-group">
-          <label for="atributos">Atributos:</label>
-          <textarea id="atributos"
-                    v-model="atributos"
-                    class="input-field"></textarea>
-        </div>
-
         <button v-on:click="submitForm" type="submit" class="cta-button2 center">Registrarse</button>
       </form>
     </div>
@@ -87,11 +80,13 @@ export default {
       usuario: '',
       password: '',
       atributos: '',
+    
 
     }
   },
   methods: {
     submitForm: async function() {
+      console.log("papapapapapapp");
       let response = await this.$axios.post("/voluntario/create",
         {
           nombre: this.nombre,

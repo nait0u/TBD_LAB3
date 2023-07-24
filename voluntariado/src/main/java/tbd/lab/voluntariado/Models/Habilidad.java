@@ -5,23 +5,25 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("habilidad")
 public class Habilidad {
 
-    private Long id;
+    private String _id;
+    private Long id_habilidad;
     private String codigo;
     private String descripcion;
 
     //CONSTRUCTOR Habilidad
-    public Habilidad(Long id, String codigo, String descripcion) {
-        this.id = id;
+    public Habilidad(String _id, Long id_habilidad, String codigo, String descripcion) {
+        this._id = _id;
+        this.id_habilidad = id_habilidad;
         this.codigo = codigo;
         this.descripcion = descripcion;
     }
 
     public Long getId() {
-        return id;
+        return id_habilidad;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id_habilidad = id;
     }
 
     public String getCodigo() {

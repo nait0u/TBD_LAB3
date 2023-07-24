@@ -38,20 +38,19 @@ public class HabilidadService {
     }
 
 
-    @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.DELETE)
-    public void deleteHabilidad(@PathVariable long id) {
-        habilidadRepository.deleteHabilidadById(id);
+    @RequestMapping(value = "/deleteById/{id_habilidad}", method = RequestMethod.DELETE)
+    public void deleteHabilidad(@PathVariable Long id_habilidad) {
+        habilidadRepository.deleteHabilidadById(id_habilidad);
     }
-
 
     @RequestMapping(value = "/updateById/{id}", method = RequestMethod.PUT)
     public void updateHabilidad(@RequestBody Habilidad habilidad) {
         habilidadRepository.updateHabilidad(habilidad);
     }
 
-    @RequestMapping(value = "/getById/{id}", method = RequestMethod.GET)
-    public List<Habilidad> getHabilidadById(@PathVariable long id) {
-        return habilidadRepository.showHabilidadById(id);
+    @RequestMapping(value = "/getById/{id_habilidad}", method = RequestMethod.GET)
+    public List<Habilidad> getHabilidadById(@PathVariable Long id_habilidad) {
+        return habilidadRepository.showHabilidadById(id_habilidad);
     }
 
 }

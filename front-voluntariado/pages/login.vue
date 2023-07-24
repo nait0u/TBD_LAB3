@@ -37,6 +37,7 @@
         </div>
         <button type="submit" class="cta-button2">Iniciar sesión</button>
       </form>
+      
     </div>
     </div>
   </div>
@@ -61,6 +62,7 @@ export default {
         .then(response => {
           // Procesar la respuesta del servidor
           console.log(response.data);
+          console.log("papapapapapapp");
         })
         .catch(error => {
           // Manejar errores de solicitud
