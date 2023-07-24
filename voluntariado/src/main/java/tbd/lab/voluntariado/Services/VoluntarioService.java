@@ -64,7 +64,8 @@ public class VoluntarioService {
     }
 
     @GetMapping("obtenerHabilidades/{id_voluntario}")
-    public List<Voluntario> obtenerHabilidadesDeVoluntario(@PathVariable int id_voluntario) {
-        return voluntarioRepositoryImp.obtenerHabilidadesDeVoluntario(id_voluntario);
+    public List<Voluntario> obtenerHabilidadesDeVoluntario(@PathVariable Long id_voluntario) {
+        return voluntarioRepositoryImp.getVoluntarioWithHabilidades(id_voluntario);
     }
+
 }

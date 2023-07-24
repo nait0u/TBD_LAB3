@@ -76,4 +76,5 @@ public class Voluntario {
     public void setHabilidades(List<Habilidad> habilidades) {
         this.habilidades = habilidades;
     }
+
 }

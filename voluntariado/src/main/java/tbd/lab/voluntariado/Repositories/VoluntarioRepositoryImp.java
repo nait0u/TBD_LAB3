@@ -69,36 +69,17 @@ public class VoluntarioRepositoryImp implements VoluntarioRepository{
         mongoTemplate.updateFirst(query, update, Voluntario.class);
     }
 
-        public List<Voluntario> obtenerHabilidadesDeVoluntario(int id_voluntario) {
 
-            // Etapa 1: Filtrar el voluntario por su id_voluntario
-            AggregationOperation matchVoluntario = match(Criteria.where("id_voluntario").is(id_voluntario));
+    public List<Voluntario> getVoluntarioWithHabilidades(Long id_voluntario) {
+        AggregationOperation match = Aggregation.match(Criteria.where("_id").is(id_voluntario));
+        AggregationOperation lookup = Aggregation.lookup("habilidades", "habilidades", "_id", "habilidades");
+        AggregationOperation unwind = Aggregation.unwind("habilidades");
 
-            // Etapa 2: Realizar el lookup para unir con la colección de habilidades
-            LookupOperation lookupHabilidades = lookup("habilidad", "habilidades.id_habilidad", "id_habilidad", "habilidades_voluntario");
+        Aggregation aggregation = Aggregation.newAggregation(match, lookup, unwind);
 
-            // Etapa 3: Desenrollar el array de habilidades
-            UnwindOperation unwindHabilidades = unwind("habilidades_voluntario");
-
-            // Etapa 4: Filtrar las habilidades del voluntario específico
-            AggregationOperation matchHabilidadesVoluntario = match(Criteria.where("habilidades_voluntario.id_voluntario").is(id_voluntario));
-
-            // Etapa 5: Proyectar solo los campos necesarios si es necesario
-            // Aquí puedes proyectar solo los campos que deseas mostrar en la respuesta.
-
-            // Ejecutar la agregación
-            Aggregation aggregation = Aggregation.newAggregation(
-                    matchVoluntario,
-                    lookupHabilidades,
-                    unwindHabilidades,
-                    matchHabilidadesVoluntario
-                    // Agrega aquí más etapas de ser necesario (por ejemplo, agrupación y proyección)
-            );
-
-            AggregationResults<Voluntario> resultado = mongoTemplate.aggregate(aggregation, "voluntario", Voluntario.class);
-
-            return resultado.getMappedResults();
-        }
+        AggregationResults<Voluntario> result = mongoTemplate.aggregate(aggregation, "voluntario", Voluntario.class);
+        return result.getMappedResults();
+    }
 
 
 }
