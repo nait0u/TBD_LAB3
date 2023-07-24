@@ -1,15 +1,20 @@
 package tbd.lab.voluntariado.Repositories;
 
+import com.mongodb.client.*;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.springframework.data.mongodb.core.aggregation.*;
+
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import tbd.lab.voluntariado.Models.Voluntario;
+
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
@@ -70,15 +75,25 @@ public class VoluntarioRepositoryImp implements VoluntarioRepository{
     }
 
 
-    public List<Voluntario> getVoluntarioWithHabilidades(Long id_voluntario) {
-        AggregationOperation match = Aggregation.match(Criteria.where("_id").is(id_voluntario));
-        AggregationOperation lookup = Aggregation.lookup("habilidades", "habilidades", "_id", "habilidades");
-        AggregationOperation unwind = Aggregation.unwind("habilidades");
+    public AggregateIterable<Document> getTotalHabilidadesVoluntario() {
+        MongoClient mongoClient = MongoClients.create(
+                "mongodb://mongo:mongo@localhost:27017/?authMechanism=DEFAULT&authSource=admin");
+        MongoDatabase database = mongoClient.getDatabase("bd_voluntariado");
+        MongoCollection<Document> collectionVoluntario = database.getCollection("voluntario");
+        MongoCollection<Document> collectionHabilidad = database.getCollection("habilidad");
 
-        Aggregation aggregation = Aggregation.newAggregation(match, lookup, unwind);
-
-        AggregationResults<Voluntario> result = mongoTemplate.aggregate(aggregation, "voluntario", Voluntario.class);
-        return result.getMappedResults();
+        AggregateIterable<Document> result = collectionVoluntario.aggregate(Arrays.asList(
+                new Document("$lookup",
+                        new Document("from", "habilidad")
+                                .append("localField", "_id")
+                                .append("foreignField", "id_voluntario")
+                                .append("as", "habilidades")),
+                new Document("$unwind", new Document("path", "$habilidades")),
+                new Document("$group",
+                        new Document("_id", "$_id")
+                                .append("total_habilidades", new Document("$sum", 1L)))
+        ));
+        return result;
     }
 
 

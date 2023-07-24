@@ -1,6 +1,9 @@
 package tbd.lab.voluntariado.Services;
 
+import com.mongodb.client.AggregateIterable;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tbd.lab.voluntariado.Models.Habilidad;
 import tbd.lab.voluntariado.Models.Voluntario;
@@ -63,9 +66,10 @@ public class VoluntarioService {
         return voluntarioRepository.showVoluntarioById(id_voluntario);
     }
 
-    @GetMapping("obtenerHabilidades/{id_voluntario}")
-    public List<Voluntario> obtenerHabilidadesDeVoluntario(@PathVariable Long id_voluntario) {
-        return voluntarioRepositoryImp.getVoluntarioWithHabilidades(id_voluntario);
+    @GetMapping("/totalHabilidades")
+    public ResponseEntity<AggregateIterable<Document>> getTotalHabilidadesVoluntario() {
+        AggregateIterable<Document> result = voluntarioRepositoryImp.getTotalHabilidadesVoluntario();
+        return ResponseEntity.ok(result);
     }
 
 }
