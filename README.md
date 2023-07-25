@@ -1,5 +1,5 @@
 <div align="center">
-      <h1> <img src="https://th.bing.com/th/id/R.70c11b59c144e8d8af1a292274043105?rik=qsIhI%2f3hvZdFJQ&pid=ImgRaw&r=0" width="80px"><br/>Laboratorio TDB </h1>
+      <h1> <img src="https://th.bing.com/th/id/R.70c11b59c144e8d8af1a292274043105?rik=qsIhI%2f3hvZdFJQ&pid=ImgRaw&r=0" width="80px"><br/>Laboratorio 3 TDB </h1>
      </div>
 
 # Voluntariado_grupo5
@@ -10,24 +10,23 @@
 - Bryan Salgado (Fronted)
 - Constanza Palomo (Frontend)
 - Semestre: 1-2023
-- Fecha de entrega: 19/06/2023
+- Fecha de entrega: 24/07/2023
 
 
 
 
 # Tecnologías utilizadas🛠:
- ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white) ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) ![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D) 
+ ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white) ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) ![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
    
 
 ### Instrucciones de Instalación 💻:
 Para poder ejecutar el proyecto se deben tener instaladas las siguientes herramientas:
 
-    - Nodejs
-    - Vue 2x
-    - Nuxt 3
-    - Postgres 12 o superior
+    - Intellij 2023.1.4
+    - Spring Boot 3.0.9 
     - Java 17
-    - PgAdmin 4
+    - MongoDB 6.0.8
+    - MongoDB Compass 1.39.0
     
 Primeramente se debe clonar el repositorio proporcionado, dentro del cual se encontrarán las carpeta "voluntariado"(back-end), "front-voluntariado"(front-end) y "db" donde se podrán encontrar los scripts para crear y poblar la base de datos del programa.
 
