@@ -5,7 +5,7 @@
 # Voluntariado_grupo5
 
 ## Integrantes
-- Ricardo Arancibia(Backend)
+- Ricardo Arancibia (Backend)
 - Hernán Aravena (Backend)
 - Bryan Salgado (Fronted)
 - Constanza Palomo (Frontend)
@@ -22,60 +22,50 @@
 ### Instrucciones de Instalación 💻:
 Para poder ejecutar el proyecto se deben tener instaladas las siguientes herramientas:
 
-    - Intellij 2023.1.4
-    - Spring Boot 3.0.9 
+    - Intellij v2023.1.4
+    - Spring Boot v3.0.9 
     - Java 17
-    - MongoDB 6.0.8
-    - MongoDB Compass 1.39.0
+    - MongoDB v6.0.8
+    - MongoDB Compass v1.39.0
+    - Postman v10.16
     
-Primeramente se debe clonar el repositorio proporcionado, dentro del cual se encontrarán las carpeta "voluntariado"(back-end), "front-voluntariado"(front-end) y "db" donde se podrán encontrar los scripts para crear y poblar la base de datos del programa.
+Primeramente se debe clonar el repositorio proporcionado, dentro del cual se encontrarán las carpetas "voluntariado"(back-end) y "db mongo" donde en esta última se podrán encontrar los archivos en formato .JSON para poblar la base de datos del programa.
 
 ### Montar el back-end 🚀:
 
-Antes de comenzar a levantar el proyecto, se debe tener en cuenta que se necesita tener Postgres configurado en el puerto 5432,
-que es el puerto por defecto, además de tener instalada la extensión de POSTGIS.
-1. Teniendo ya Postgres configurado, se debe crear una base de datos llamada "bd_val", necesariamente se debe llamar de esta forma para que el backend se conecte con la base de datos.
-2. Teniendo la base de datos creada se debe abrir una query y ejecutar la siguiente instrucción: 
+Antes de comenzar a levantar el proyecto, se debe tener en cuenta que se necesita tener MongoDB configurado en el puerto 27017,
+que es el puerto por defecto.
+1. Ejecute MongoDB Compass en su computador.
+2. Teniendo ya MongoDB configurado, se debe crear una colección (de nombre a elección) y una base de datos llamada "bd_voluntariado", necesariamente se debe llamar de esta forma para que el backend se conecte con la base de datos.
+3. Teniendo la base de datos creada, abra una shell de Mongo (consola) haciendo click en la parte inferior de MongoDB Compass, donde dice >_Mongosh y ejecute los siguientes comamdos: 
 ```
-"CREATE EXTENSION postgis;"
-```
-3. Luego en la misma query o en una distinta (como desee) ejecutar los comandos que se encuentran en los siguientes archivos de la carpeta "db" del proyecto, y siguiendo este orden:
-    1. archivo "create_table.sql"
-    2. archivo "create_triggers.sql"
-    3. archivo "create_proc.sql"
-    4. archivo "import.sql"
-    5. archivo "division_regional.sql"
+# Conectarse a base de datos 'admin'
+test> use admin
 
-4. Configurar el archivo "application.properties" que se encuentra en la ruta Lab1\voluntariado\src\main\resources\application.properties, con las credenciales que correspondan
-5. Para mayor comodidad se recomienda abrir el proyecto de backend en IntelliJ (abrir la carpeta voluntariado Lab1\voluntariado), y ejecutar desde el idle con el boton run 'VoluntariadoApplication'
-6. En caso de no tener IntelliJ o querer ocupar consola se debe ejecutar los siguientes comandos:
+# Crear superusuario llamado 'mongo' con contraseña 'mongo'
+admin> db.createUser({user: "mongo", pwd: "mongo", roles: [ { role: "root", db: "admin" } ]})
+
+# Conectarse a base de datos 'bd_voluntariado'
+admin> use bd_voluntariado
+
+# Crear usuario 'mongo' con contraseña 'mongo' para que quede asociado a la base de datos 'bd_voluntariado', con permisos de lectura y escritura
+bd_voluntariado> db.createUser({user: "mongo", pwd: "mongo", roles: [ { role: "readWrite", db: "bd_voluntariado" } ]})
+
+#Cerrar consola, haciendo click en >_Mongosh
+```
+4. Ahora entre a la base de datos bd_voluntariado y haga click en el botón verde ADD_DATA e importe los archivos .JSON "habilidad" y "voluntario". Con esto la base de datos ya estará poblada. 
+
+5. El archivo "application.properties" que se encuentra en la ruta TBD_LAB3\voluntariado\src\main\resources\application.properties, ya viene con las credenciales necesarias para conectar el back-end a la base de datos.
+6. Para mayor comodidad se recomienda abrir el proyecto de backend en IntelliJ (abrir la carpeta voluntariado TBD_LAB3\voluntariado), y ejecutar desde el idle con el boton run 'VoluntariadoApplication'
+7. En caso de no tener IntelliJ o querer ocupar consola se deben ejecutar los siguientes comandos:
 ```
   -- mvn clean package
   -- java -jar target/voluntariado-0.0.1-SNAPSHOT.jar
 ```
 Y de esta manera se despliega el back
-### Montar el front-end 🚀:
 
-Para iniciar el front se debe abrir la carpeta "front-voluntariado" del proyecto clonado, luego se debe abrir una terminal en la carpeta y ejecutar el siguiente comando para instalar las dependencias:
-```
-npm install
-```
-En caso de que falte instalar alguna dependencia(como axios), se debe ejecutar el siguiente comando:
-```
-npm install <nombre_modulo> -> En este caso sería: npm install axios
-```
-Luego para poner en marcha el fronted se ejecuta el comando:
-```
-npm run dev
-```
-Finalmente, para acceder a la vista esta se encontrará en el puerto:
-```
-http://localhost:8080/
-```
+### Probar el back-end a través de peticiones HTML por Postman 🚀:
 
-### Extra📌📌:
-En caso de que la biblioteca leaflet genere algun problema ejecutar:
-```
-npm install leaflet-defaulticon-compatibility --save
-```
-Luego volver a ejecutar el comando para poner en marcha.
+1. Ejecute Postman en su computador.
+2. Agregue una nueva petición con el botón add request y en la barra principal (a modo de ejemplo) seleccione GET y pegue el siguiente endpoint: 'localhost:3000/voluntario' luego haga click en el botón azul SEND para enviar la petición y deberían aparecerle todos los voluntarios que hay en la base de datos.
+3. Puede revisar el resto de endpoints para probar el programa en la carpeta Services que se encuentra dentro del back-end, en cada uno de los servicios.
